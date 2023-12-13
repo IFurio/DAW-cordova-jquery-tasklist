@@ -26,7 +26,42 @@ function onDeviceReady() {
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
 
+    /*
+    <!-- page 1 -->
+    <div data-role="page" id="page1">
+        <div data-role="header">
+            <a href="#" data-icon="back" data-rel="back" title="Go back">Back</a>
+            <h1>Page1</h1>
+        </div>
+
+        <div class="ui-content">
+            <p>Page 1 content goes here</p>
+        </div><!-- end page 1 content -->
+
+        <div data-role="footer" data-position="fixed">
+            <h1>Page1</h1>
+        </div><!-- /footer -->
+    </div><!-- /page1 -->
+    */
     $("#add").on("click", function() {
-        $("<li><a href='#page3'>New page</a></li>").appendTo("[data-role='listview']");
+        var taskText = window.prompt("Please Enter The Task Name").trim();
+        if (taskText) {
+            let newDelete = "<a href='#delete'></a>"
+            $("<li><a href='#" + taskText + "'>" + taskText + "</a>" + newDelete + "</li>").appendTo("[data-role='listview']");
+            $( "ul" ).listview( "refresh" );
+            let newDiv = 
+            "<div data-role='page' id='" + taskText + "'>" +
+            "<div data-role='header'>" +
+            "<a href='#' data-icon='back' data-rel='back' title='Go back'>Back</a>" +
+            "<h1>" + taskText + "</h1>" + 
+            "</div>" +
+            "<div class='ui-content'>" +
+            "<p>" + taskText + " Content</p>" +
+            "</div>" +
+            "<div data-role='footer' data-position='fixed'>" +
+            "<h1>" + taskText + "</h1>" +
+            "</div></div>";
+            $( newDiv ).appendTo("body");
+        }
     });
 }
