@@ -46,7 +46,7 @@ function onDeviceReady() {
     $("#add").on("click", function() {
         var taskText = window.prompt("Please Enter The Task Name").trim();
         if (taskText) {
-            let newDelete = "<a href='#delete'></a>"
+            let newDelete = "<a class='delete' href=''></a>"
             $("<li><a href='#" + taskText + "'>" + taskText + "</a>" + newDelete + "</li>").appendTo("[data-role='listview']");
             $( "ul" ).listview( "refresh" );
             let newDiv = 
@@ -62,6 +62,12 @@ function onDeviceReady() {
             "<h1>" + taskText + "</h1>" +
             "</div></div>";
             $( newDiv ).appendTo("body");
+
+            $("ul").on("click",".delete", function(ev) {
+                var caller = ev.target || ev.srcElement
+                caller.closest("li").remove() 
+            })
         }
     });
+    
 }
