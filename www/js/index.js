@@ -79,6 +79,7 @@ function onDeviceReady() {
         var liElement = $(this).closest("li");
         var primerEnlace = liElement.find("a:first");
         primerEnlace.attr("contenteditable", "true").focus();
+        // Esto para guardar en local storage primerEnlace.on("blur", function() {})
     })
     
 }
