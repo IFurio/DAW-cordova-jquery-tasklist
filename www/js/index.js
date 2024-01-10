@@ -43,11 +43,15 @@ function onDeviceReady() {
         </div><!-- /footer -->
     </div><!-- /page1 -->
     */
+
+
+
     $("#add").on("click", function() {
         var taskText = window.prompt("Please Enter The Task Name").trim();
         if (taskText) {
             let newDelete = "<a class='delete' href=''></a>"
-            $("<li><a href='#" + taskText + "'>" + taskText + "</a>" + newDelete + "</li>").appendTo("[data-role='listview']");
+            let newEdit = "<a class='edit-button ui-btn ui-btn-icon-notext ui-icon-edit ui-btn-a' href=''></a>"
+            $("<li><a class='" + taskText + "' href='#" + taskText + "'>" + taskText + "</a>" + newEdit + newDelete + "</li>").appendTo("[data-role='listview']");
             $( "ul" ).listview( "refresh" );
             let newDiv = 
             "<div data-role='page' id='" + taskText + "'>" +
@@ -61,13 +65,20 @@ function onDeviceReady() {
             "<div data-role='footer' data-position='fixed'>" +
             "<h1>" + taskText + "</h1>" +
             "</div></div>";
-            $( newDiv ).appendTo("body");
+            //$( newDiv ).appendTo("body");
 
             $("ul").on("click",".delete", function(ev) {
                 var caller = ev.target || ev.srcElement
                 caller.closest("li").remove() 
             })
+
         }
     });
+
+    $("ul").on("click", ".edit-button", function() {
+        var liElement = $(this).closest("li");
+        var primerEnlace = liElement.find("a:first");
+        primerEnlace.attr("contenteditable", "true").focus();
+    })
     
 }

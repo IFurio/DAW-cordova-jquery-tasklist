@@ -102,6 +102,10 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
+.edit-button {
+    margin-right: 40px !important;
+}
+
 
 @media screen and (prefers-color-scheme: dark) {
     body {
