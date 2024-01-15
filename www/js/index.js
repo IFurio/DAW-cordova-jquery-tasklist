@@ -44,14 +44,19 @@ function onDeviceReady() {
     </div><!-- /page1 -->
     */
 
-
+    printLocalStorage();
 
     $("#add").on("click", function() {
         var taskText = window.prompt("Please Enter The Task Name").trim();
         if (taskText) {
+            // set unique id and local storage
+            var id = Math.random().toString(16).slice(2)
+            localStorage.setItem(id, taskText)
+
+            // set the li element
             let newDelete = "<a class='delete' href=''></a>"
             let newEdit = "<a class='edit-button ui-btn ui-btn-icon-notext ui-icon-edit ui-btn-a' href=''></a>"
-            $("<li><a class='" + taskText + "' href='#" + taskText + "'>" + taskText + "</a>" + newEdit + newDelete + "</li>").appendTo("[data-role='listview']");
+            $("<li id='" + id + "'><a class='" + taskText + "' href='#" + taskText + "'>" + taskText + "</a>" + newEdit + newDelete + "</li>").appendTo("[data-role='listview']");
             $( "ul" ).listview( "refresh" );
             let newDiv = 
             "<div data-role='page' id='" + taskText + "'>" +
@@ -67,19 +72,48 @@ function onDeviceReady() {
             "</div></div>";
             //$( newDiv ).appendTo("body");
 
-            $("ul").on("click",".delete", function(ev) {
-                var caller = ev.target || ev.srcElement
-                caller.closest("li").remove() 
-            })
+            
 
         }
     });
+
+    //Event listeners for the buttons
+    $("ul").on("click",".delete", function(ev) {
+        var caller = ev.target || ev.srcElement
+        let liElementId = caller.closest("li").id;
+        caller.closest("li").remove();
+        localStorage.removeItem(liElementId);
+    })
 
     $("ul").on("click", ".edit-button", function() {
         var liElement = $(this).closest("li");
         var primerEnlace = liElement.find("a:first");
         primerEnlace.attr("contenteditable", "true").focus();
-        // Esto para guardar en local storage primerEnlace.on("blur", function() {})
-    })
-    
+
+        // has salido del edit. Se quita el edit y se modifica de localstorage
+        primerEnlace.on("blur", function() {
+            primerEnlace.attr("contenteditable", "false");
+            console.log("has salido del edit.");
+            //localStorage.removeItem(liElement.id);
+            console.log(primerEnlace)
+            //localStorage.setItem(liElement.id, primerEnlace.textContent);
+            
+            $( "ul" ).listview( "refresh" );
+        });
+        
+    });
+}
+
+function printLocalStorage () {
+    if (localStorage.length > 0) {
+        for (let i = 0; i < localStorage.length; i++) {
+            let id = localStorage.key(i);
+            let taskText = localStorage.getItem(id);
+
+            let newDelete = "<a class='delete' href=''></a>"
+            let newEdit = "<a class='edit-button ui-btn ui-btn-icon-notext ui-icon-edit ui-btn-a' href=''></a>"
+            $("<li id='" + id + "'><a class='" + taskText + "' href='#" + taskText + "'>" + taskText + "</a>" + newEdit + newDelete + "</li>").appendTo("[data-role='listview']");
+        }
+        $( "ul" ).listview( "refresh" );
+    }
 }
