@@ -90,13 +90,12 @@ function onDeviceReady() {
         var primerEnlace = liElement.find("a:first");
         primerEnlace.attr("contenteditable", "true").focus();
 
-        // has salido del edit. Se quita el edit y se modifica de localstorage
+        // You have leaved from edit. The editing is stoped and the localstorage updated
         primerEnlace.on("blur", function() {
             primerEnlace.attr("contenteditable", "false");
             console.log("has salido del edit.");
-            //localStorage.removeItem(liElement.id);
-            console.log(primerEnlace)
-            //localStorage.setItem(liElement.id, primerEnlace.textContent);
+            localStorage.removeItem(liElement.attr('id'));
+            localStorage.setItem(liElement.attr('id'), primerEnlace.text());
             
             $( "ul" ).listview( "refresh" );
         });
